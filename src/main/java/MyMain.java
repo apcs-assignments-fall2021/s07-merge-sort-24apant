@@ -7,8 +7,33 @@ public class MyMain {
     // ********************
 
     public static int[] merge(int[] arr1, int[] arr2) {
-        // COPY AND PASTE YOUR CODE HERE
-        return new int[] {1, 2, 3, 4};
+        int[] arr = new int[arr1.length + arr2.length];
+        int idx1 =  0;
+        int idx2 = 0;
+        int idx = 0;
+        for(int i = 0; i < arr.length; i ++){
+            if(idx1 == arr1.length){ // if arr1 is done, just add the rest from arr2
+                arr[idx] = arr2[idx2];
+                idx ++;
+                idx2 ++;
+            }
+            else if(idx2 == arr2.length){ // if arr2 is done, just add rest from arr1
+                arr[idx] = arr1[idx1];
+                idx ++;
+                idx1 ++;
+            }
+            else if(arr1[idx1] < arr2[idx2]){ // if arr1 is less than arr2
+                arr[idx] = arr1[idx1];
+                idx ++;
+                idx1 ++;
+            }
+            else if(arr1[idx1] >= arr2[idx2]){
+                arr[idx] = arr2[idx2];
+                idx ++;
+                idx2 ++;
+            }
+        }
+        return arr;
     }
 
     // **************************
@@ -26,7 +51,13 @@ public class MyMain {
     // subArray([1, 4, 3, 7], 2, 4) => [3, 7]
     public static int[] subArray(int[] arr, int begin, int end) {
         // YOUR CODE HERE
-        return null;
+        int[] newArr = new int[end - begin];
+        int iter = 0;
+        for(int i = begin; i < end; i ++){
+            newArr[iter] = arr[i];
+            iter ++;
+        }
+        return newArr;
     }
 
     // Carries out merge sort!
@@ -44,8 +75,18 @@ public class MyMain {
     // mergeSort([6, 3, 4, 1, 5, 8, 7, 2]) => [1, 2, 3, 4, 5, 6, 7, 8]
     public static int[] mergeSort(int[] arr) {
         // YOUR CODE HERE
-        return null;
+        if(arr.length == 1){
+            return arr;
+        }
+        else{
+            int[] leftSorted = mergeSort(subArray(arr, 0, arr.length/2));
+            int[] rightSorted = mergeSort(subArray(arr, arr.length / 2, arr.length));
+            System.out.println(Arrays.toString(merge(leftSorted, rightSorted)));
+            return merge(leftSorted, rightSorted);
+        }
     }
+
+
 
 
 
@@ -80,7 +121,20 @@ public class MyMain {
     // Tail recursive method
     public static ArrayList<Integer> insertTR(ArrayList<Integer> list, int x, int i) {
         // YOUR CODE HERE
-        return null;
+        if(i == list.size()){
+            list.add(x);
+            return list;
+        }
+        else if(list.get(i) >= x){
+            //add here and return
+            list.add(i, x);
+            return list;
+        }
+
+        else{
+
+            return insertTR(list, x, i + 1);
+        }
     }
 
     // Next, write the insertion sort method, which is sorts a given
@@ -102,6 +156,15 @@ public class MyMain {
     /// insertionSort([6, 3, 4, 1, 5, 8, 7, 2]) => [1, 2, 3, 4, 5, 6, 7, 8]
     public static ArrayList<Integer> insertionSort(ArrayList<Integer> list) {
         // YOUR CODE HERE
-        return null;
+        if(list.size() == 1){
+            return list;
+        }
+        else{
+            int lastElement = list.get(list.size()- 1);
+            list.remove(list.size() - 1);
+            list = insertionSort(list);
+            list = insert(list, lastElement);
+            return list;
+        }
     }
 }
